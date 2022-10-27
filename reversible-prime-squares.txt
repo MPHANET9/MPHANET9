@@ -1,0 +1,194 @@
+						User Text Segment [00400000]..[00440000]
+[00400000] 8fa40000  lw $4, 0($29)            ; 183: lw $a0 0($sp) # argc 
+[00400004] 27a50004  addiu $5, $29, 4         ; 184: addiu $a1 $sp 4 # argv 
+[00400008] 24a60004  addiu $6, $5, 4          ; 185: addiu $a2 $a1 4 # envp 
+[0040000c] 00041080  sll $2, $4, 2            ; 186: sll $v0 $a0 2 
+[00400010] 00c23021  addu $6, $6, $2          ; 187: addu $a2 $a2 $v0 
+[00400014] 0c100009  jal 0x00400024 [main]    ; 188: jal main 
+[00400018] 00000000  nop                      ; 189: nop 
+[0040001c] 3402000a  ori $2, $0, 10           ; 191: li $v0 10 
+[00400020] 0000000c  syscall                  ; 192: syscall # syscall 10 (exit) 
+[00400024] 34080002  ori $8, $0, 2            ; 19: li $t0, 2 #Set the first number to 2 
+[00400028] 340b0000  ori $11, $0, 0           ; 20: li $t3, 0 #Set the length at 0 
+[0040002c] 3c0c1001  lui $12, 4097 [myArray]  ; 21: la $t4, myArray #Load the base address for the array 
+[00400030] 34012710  ori $1, $0, 10000        ; 23: beq $t0, 10000, exit #If the number equals to 10000, exit loop 
+[00400034] 10280011  beq $1, $8, 68 [exit-0x00400034] 
+[00400038] 34090001  ori $9, $0, 1            ; 25: li $t1, 1 #Set isprime to true 
+[0040003c] 340a0002  ori $10, $0, 2           ; 26: li $t2, 2 #Set the checking number from 2 
+[00400040] 11480006  beq $10, $8, 24 [done-0x00400040]
+[00400044] 11200005  beq $9, $0, 20 [done-0x00400044]
+[00400048] 010a001a  div $8, $10              ; 31: div $t0, $t2 #Check if the number is fully divisible 
+[0040004c] 00004810  mfhi $9                  ; 32: mfhi $t1 #If its not, $t1 == 0, isprime == false 
+[00400050] 214a0001  addi $10, $10, 1         ; 34: addi $t2, $t2, 1 #Increment to the next number 
+[00400054] 08100010  j 0x00400040 [isprime]   ; 36: j isprime 
+[00400058] 11200006  beq $9, $0, 24 [skip-0x00400058]
+[0040005c] 01080018  mult $8, $8              ; 42: mult $t0, $t0 #Square the prime number 
+[00400060] 00008012  mflo $16                 ; 43: mflo $s0 
+[00400064] ad900000  sw $16, 0($12)           ; 45: sw $s0, 0($t4) #Populate the array 
+[00400068] 218c0004  addi $12, $12, 4         ; 46: addi $t4, $t4, 4 #Increment to the next position 
+[0040006c] 216b0001  addi $11, $11, 1         ; 48: addi $t3, $t3, 1 #Count the number of elements in the array 
+[00400070] 21080001  addi $8, $8, 1           ; 51: addi $t0, $t0, 1 #Increment to the next number 
+[00400074] 0810000c  j 0x00400030 [while]     ; 53: j while 
+[00400078] 34020004  ori $2, $0, 4            ; 56: li $v0, 4 
+[0040007c] 3c011001  lui $1, 4097 [message]   ; 57: la $a0, message 
+[00400080] 34249c40  ori $4, $1, -25536 [message] 
+[00400084] 0000000c  syscall                  ; 58: syscall 
+[00400088] 3c0c1001  lui $12, 4097 [myArray]  ; 73: la $t4, myArray #Load base address for the array 
+[0040008c] 34080001  ori $8, $0, 1            ; 74: li $t0, 1 #int exit = 0 
+[00400090] 34090000  ori $9, $0, 0            ; 75: li $t1, 0 #Set the indexing at 0, for first number 
+[00400094] 112b0024  beq $9, $11, 144 [exit_1-0x00400094]
+[00400098] 8d850000  lw $5, 0($12)            ; 80: lw $a1, 0($t4) #Load a integer from the array, sq_primes[counter] 
+[0040009c] 218c0004  addi $12, $12, 4         ; 81: addi $t4, $t4, 4 #Increment to the next word in the array 
+[004000a0] 23bdffec  addi $29, $29, -20       ; 83: addi $sp, $sp, -20 #Allocate memory in the stack to store the argument, number 
+[004000a4] afa50000  sw $5, 0($29)            ; 84: sw $a1, 0($sp) #Store the argument in the stack, before calling the procedure 
+[004000a8] afa80004  sw $8, 4($29)            ; 85: sw $t0, 4($sp) #Store the temporary registers that are in use in the main procedure 
+[004000ac] afa90008  sw $9, 8($29)            ; 86: sw $t1, 8($sp) 
+[004000b0] afab000c  sw $11, 12($29)          ; 87: sw $t3, 12($sp) 
+[004000b4] afac0010  sw $12, 16($29)          ; 88: sw $t4, 16($sp) 
+[004000b8] 0c100069  jal 0x004001a4 [Reverse] ; 89: jal Reverse #Call the Reverse procedure, to reverse the number 
+[004000bc] 8fac0010  lw $12, 16($29)          ; 90: lw $t4, 16($sp) 
+[004000c0] 8fab000c  lw $11, 12($29)          ; 91: lw $t3, 12($sp) 
+[004000c4] 8fa90008  lw $9, 8($29)            ; 92: lw $t1, 8($sp) #Load the temporary registers that are in use in the main procedure 
+[004000c8] 8fa80004  lw $8, 4($29)            ; 93: lw $t0, 4($sp) 
+[004000cc] 8fa50000  lw $5, 0($29)            ; 94: lw $a1, 0($sp) #Load the argument from the stack, after calling the procedure 
+[004000d0] 23bd0014  addi $29, $29, 20        ; 95: addi $sp, $sp, 20 #Deallocate memory in the stack; 12 = 4 * 3 
+[004000d4] 10a30012  beq $5, $3, 72 [palindrome-0x004000d4]
+[004000d8] 340a0000  ori $10, $0, 0           ; 100: li $t2, 0 #Set the indexing at 0, int count = 0 
+[004000dc] 3c0d1001  lui $13, 4097 [myArray]  ; 101: la $t5, myArray #Load base memory address for the array 
+[004000e0] 114b000f  beq $10, $11, 60 [tested-0x004000e0]
+[004000e4] 8db10000  lw $17, 0($13)           ; 105: lw $s1, 0($t5) #Load integer from array, sq_primes[count] 
+[004000e8] 21ad0004  addi $13, $13, 4         ; 106: addi $t5, $t5, 4 #Increment to the next word in the array 
+[004000ec] 1623000a  bne $17, $3, 40 [not_reversible_sq_primes-0x004000ec]
+[004000f0] 3401000a  ori $1, $0, 10           ; 110: beq $t0, 10, not_reversible_sq_primes #If 10 numbers are printed stop print 
+[004000f4] 10280008  beq $1, $8, 32 [not_reversible_sq_primes-0x004000f4] 
+[004000f8] 34020004  ori $2, $0, 4            ; 112: li $v0, 4 #Print newLine 
+[004000fc] 3c011001  lui $1, 4097 [newLine]   ; 113: la $a0, newLine 
+[00400100] 34249c70  ori $4, $1, -25488 [newLine] 
+[00400104] 0000000c  syscall                  ; 114: syscall 
+[00400108] 34020001  ori $2, $0, 1            ; 116: li $v0, 1 #Print number 
+[0040010c] 00a02020  add $4, $5, $0           ; 117: add $a0, $a1, $zero 
+[00400110] 0000000c  syscall                  ; 118: syscall 
+[00400114] 214a0001  addi $10, $10, 1         ; 122: addi $t2, $t2, 1 #Increment to the second number 
+[00400118] 08100038  j 0x004000e0 [tester]    ; 124: j tester 
+[0040011c] 21290001  addi $9, $9, 1           ; 128: addi $t1, $t1, 1 #Increment to the next number, counter++ 
+[00400120] 08100025  j 0x00400094 [while_1]   ; 129: j while_1 
+[00400124] 3402000a  ori $2, $0, 10           ; 132: li $v0, 10 
+[00400128] 0000000c  syscall                  ; 133: syscall 
+[0040012c] 34030000  ori $3, $0, 0            ; 146: li $v1, 0 #Set the width as 0 
+[00400130] 3408000a  ori $8, $0, 10           ; 147: li $t0, 10 #Set the constant to 10 
+[00400134] 10a00005  beq $5, $0, 20 [stop-0x00400134]
+[00400138] 00a8001a  div $5, $8               ; 151: div $a1, $t0 #Divide the argument by 10, to remove one digit from it 
+[0040013c] 00002812  mflo $5                  ; 152: mflo $a1 #Store the quotient as the new number in the procedure 
+[00400140] 20630001  addi $3, $3, 1           ; 154: addi $v1, $v1, 1 #Increment, width with 1 
+[00400144] 0810004d  j 0x00400134 [reduce]    ; 156: j reduce 
+[00400148] 03e00008  jr $31                   ; 159: jr $ra 
+[0040014c] 23bdfffc  addi $29, $29, -4        ; 174: addi $sp, $sp, -4 #Allocate memory in the stack for one word 
+[00400150] afbf0000  sw $31, 0($29)           ; 175: sw $ra, 0($sp) #Store the procedure's return address in the stack 
+[00400154] 23bdfff8  addi $29, $29, -8        ; 177: addi $sp, $sp, -8 #Allocate memory in the stack for our a registers 
+[00400158] afa50000  sw $5, 0($29)            ; 178: sw $a1, 0($sp) #Store the first argument, $a1 
+[0040015c] afa60004  sw $6, 4($29)            ; 179: sw $a2, 4($sp) #Store the second argument, $a2 
+[00400160] 0c10004b  jal 0x0040012c [digitSize]; 180: jal digitSize #Call the procedure digitSize 
+[00400164] 8fa60004  lw $6, 4($29)            ; 181: lw $a2, 4($sp) #Load the second argument to register, $a2 
+[00400168] 8fa50000  lw $5, 0($29)            ; 182: lw $a1, 0($sp) #Load the first argument to register, $a1 
+[0040016c] 23bd0008  addi $29, $29, 8         ; 183: addi $sp, $sp, 8 #Deallocate memory in the stack 
+[00400170] 00664022  sub $8, $3, $6           ; 185: sub $t0, $v1, $a2 #expo = digitSize(sq_primes[counter]) - exit 
+[00400174] 34090001  ori $9, $0, 1            ; 187: li $t1, 1 #Set std_form to 1 
+[00400178] 340a000a  ori $10, $0, 10          ; 188: li $t2, 10 #const 10 
+[0040017c] 11000005  beq $8, $0, 20 [stop_1-0x0040017c]
+[00400180] 012a0018  mult $9, $10             ; 193: mult $t1, $t2 #Keep increasing the place value 
+[00400184] 00004812  mflo $9                  ; 194: mflo $t1 #Store the quotient of the product 
+[00400188] 2108ffff  addi $8, $8, -1          ; 196: addi $t0, $t0, -1 #Decrement by 1 
+[0040018c] 0810005f  j 0x0040017c [reduce_1]  ; 198: j reduce_1 
+[00400190] 20030000  addi $3, $0, 0           ; 201: addi $v1, $zero, 0 #Clear the return register 
+[00400194] 00091820  add $3, $0, $9           ; 202: add $v1, $zero, $t1 #Move the std_form into the return register for the procedure 
+[00400198] 8fbf0000  lw $31, 0($29)           ; 204: lw $ra, 0($sp) #Load the return address for the procedure 
+[0040019c] 23bd0004  addi $29, $29, 4         ; 205: addi $sp, $sp, 4 #Deallocate memory in the stack 
+[004001a0] 03e00008  jr $31                   ; 206: jr $ra 
+[004001a4] 23bdfffc  addi $29, $29, -4        ; 222: addi $sp, $sp, -4 #Allocate memory in the stack for one word 
+[004001a8] afbf0000  sw $31, 0($29)           ; 223: sw $ra, 0($sp) #Store the return address in the stack 
+[004001ac] 34080000  ori $8, $0, 0            ; 225: li $t0, 0 #int rev = 0 
+[004001b0] 34060001  ori $6, $0, 1            ; 226: li $a2, 1 #int exit = 1 
+[004001b4] 00054820  add $9, $0, $5           ; 228: add $t1, $zero, $a1 #int temporary = integer 
+[004001b8] 11200018  beq $9, $0, 96 [stop_2-0x004001b8]
+[004001bc] 340b000a  ori $11, $0, 10          ; 233: li $t3, 10 #const 10 
+[004001c0] 23bdffec  addi $29, $29, -20       ; 235: addi $sp, $sp, -20 #Allocate memory for a registers + t registers 
+[004001c4] afa50000  sw $5, 0($29)            ; 236: sw $a1, 0($sp) #Store the a registers in the stack 
+[004001c8] afa60004  sw $6, 4($29)            ; 237: sw $a2, 4($sp) 
+[004001cc] afa80008  sw $8, 8($29)            ; 238: sw $t0, 8($sp) #Store the t registers in the stack 
+[004001d0] afa9000c  sw $9, 12($29)           ; 239: sw $t1, 12($sp) 
+[004001d4] afab0010  sw $11, 16($29)          ; 240: sw $t3, 16($sp) 
+[004001d8] 0c100053  jal 0x0040014c [Exponent]; 241: jal Exponent #Call the Exponent procedure 
+[004001dc] 8fab0010  lw $11, 16($29)          ; 242: lw $t3, 16($sp) 
+[004001e0] 8fa9000c  lw $9, 12($29)           ; 243: lw $t1, 12($sp) 
+[004001e4] 8fa80008  lw $8, 8($29)            ; 244: lw $t0, 8($sp) #Load the t registers from the stack 
+[004001e8] 8fa60004  lw $6, 4($29)            ; 245: lw $a2, 4($sp) 
+[004001ec] 8fa50000  lw $5, 0($29)            ; 246: lw $a1, 0($sp) #Load the a registers from the stack 
+[004001f0] 23bd0014  addi $29, $29, 20        ; 247: addi $sp, $sp, 20 #Deallocate memory in the stack 
+[004001f4] 012b001a  div $9, $11              ; 249: div $t1, $t3 #temporary%10 
+[004001f8] 00005010  mfhi $10                 ; 250: mfhi $t2 #Store the remainder in the register, not the quotient 
+[004001fc] 01430018  mult $10, $3             ; 252: mult $t2, $v1 #(temporary%10)*(Exponent(integer, exit)) 
+[00400200] 00005012  mflo $10                 ; 253: mflo $t2 #For more control on the numbers, each is a 32 bit 
+[00400204] 010a4020  add $8, $8, $10          ; 255: add $t0, $t0, $t2 #rev += (temporary%10)*(Exponent(integer, exit)) 
+[00400208] 012b001a  div $9, $11              ; 257: div $t1, $t3 #temporary/10 
+[0040020c] 00004812  mflo $9                  ; 258: mflo $t1 #Reduce the number by 1 unit 
+[00400210] 20c60001  addi $6, $6, 1           ; 260: addi $a2, $a2, 1 #exit += 1 
+[00400214] 0810006e  j 0x004001b8 [reduce_2]  ; 262: j reduce_2 
+[00400218] 20030000  addi $3, $0, 0           ; 265: addi $v1, $zero, 0 #Clear the return register 
+[0040021c] 00081820  add $3, $0, $8           ; 266: add $v1, $zero, $t0 #Set rev as the procedure's return value 
+[00400220] 8fbf0000  lw $31, 0($29)           ; 268: lw $ra, 0($sp) #Load the return address for the procedure 
+[00400224] 23bd0004  addi $29, $29, 4         ; 269: addi $sp, $sp, 4 
+[00400228] 03e00008  jr $31                   ; 271: jr $ra 
+
+					Kernel Text Segment [80000000]..[80010000]
+[80000180] 0001d821  addu $27, $0, $1         ; 90: move $k1 $at # Save $at 
+[80000184] 3c019000  lui $1, -28672           ; 92: sw $v0 s1 # Not re-entrant and we can't trust $sp 
+[80000188] ac220200  sw $2, 512($1)           
+[8000018c] 3c019000  lui $1, -28672           ; 93: sw $a0 s2 # But we need to use these registers 
+[80000190] ac240204  sw $4, 516($1)           
+[80000194] 401a6800  mfc0 $26, $13            ; 95: mfc0 $k0 $13 # Cause register 
+[80000198] 001a2082  srl $4, $26, 2           ; 96: srl $a0 $k0 2 # Extract ExcCode Field 
+[8000019c] 3084001f  andi $4, $4, 31          ; 97: andi $a0 $a0 0x1f 
+[800001a0] 34020004  ori $2, $0, 4            ; 101: li $v0 4 # syscall 4 (print_str) 
+[800001a4] 3c049000  lui $4, -28672 [__m1_]   ; 102: la $a0 __m1_ 
+[800001a8] 0000000c  syscall                  ; 103: syscall 
+[800001ac] 34020001  ori $2, $0, 1            ; 105: li $v0 1 # syscall 1 (print_int) 
+[800001b0] 001a2082  srl $4, $26, 2           ; 106: srl $a0 $k0 2 # Extract ExcCode Field 
+[800001b4] 3084001f  andi $4, $4, 31          ; 107: andi $a0 $a0 0x1f 
+[800001b8] 0000000c  syscall                  ; 108: syscall 
+[800001bc] 34020004  ori $2, $0, 4            ; 110: li $v0 4 # syscall 4 (print_str) 
+[800001c0] 3344003c  andi $4, $26, 60         ; 111: andi $a0 $k0 0x3c 
+[800001c4] 3c019000  lui $1, -28672           ; 112: lw $a0 __excp($a0) 
+[800001c8] 00240821  addu $1, $1, $4          
+[800001cc] 8c240180  lw $4, 384($1)           
+[800001d0] 00000000  nop                      ; 113: nop 
+[800001d4] 0000000c  syscall                  ; 114: syscall 
+[800001d8] 34010018  ori $1, $0, 24           ; 116: bne $k0 0x18 ok_pc # Bad PC exception requires special checks 
+[800001dc] 143a0008  bne $1, $26, 32 [ok_pc-0x800001dc] 
+[800001e0] 00000000  nop                      ; 117: nop 
+[800001e4] 40047000  mfc0 $4, $14             ; 119: mfc0 $a0 $14 # EPC 
+[800001e8] 30840003  andi $4, $4, 3           ; 120: andi $a0 $a0 0x3 # Is EPC word-aligned? 
+[800001ec] 10040004  beq $0, $4, 16 [ok_pc-0x800001ec]
+[800001f0] 00000000  nop                      ; 122: nop 
+[800001f4] 3402000a  ori $2, $0, 10           ; 124: li $v0 10 # Exit on really bad PC 
+[800001f8] 0000000c  syscall                  ; 125: syscall 
+[800001fc] 34020004  ori $2, $0, 4            ; 128: li $v0 4 # syscall 4 (print_str) 
+[80000200] 3c019000  lui $1, -28672 [__m2_]   ; 129: la $a0 __m2_ 
+[80000204] 3424000d  ori $4, $1, 13 [__m2_]   
+[80000208] 0000000c  syscall                  ; 130: syscall 
+[8000020c] 001a2082  srl $4, $26, 2           ; 132: srl $a0 $k0 2 # Extract ExcCode Field 
+[80000210] 3084001f  andi $4, $4, 31          ; 133: andi $a0 $a0 0x1f 
+[80000214] 14040002  bne $0, $4, 8 [ret-0x80000214]; 134: bne $a0 0 ret # 0 means exception was an interrupt 
+[80000218] 00000000  nop                      ; 135: nop 
+[8000021c] 401a7000  mfc0 $26, $14            ; 145: mfc0 $k0 $14 # Bump EPC register 
+[80000220] 275a0004  addiu $26, $26, 4        ; 146: addiu $k0 $k0 4 # Skip faulting instruction 
+[80000224] 409a7000  mtc0 $26, $14            ; 148: mtc0 $k0 $14 
+[80000228] 3c019000  lui $1, -28672           ; 153: lw $v0 s1 # Restore other registers 
+[8000022c] 8c220200  lw $2, 512($1)           
+[80000230] 3c019000  lui $1, -28672           ; 154: lw $a0 s2 
+[80000234] 8c240204  lw $4, 516($1)           
+[80000238] 001b0821  addu $1, $0, $27         ; 157: move $at $k1 # Restore $at 
+[8000023c] 40806800  mtc0 $0, $13             ; 160: mtc0 $0 $13 # Clear Cause register 
+[80000240] 401a6000  mfc0 $26, $12            ; 162: mfc0 $k0 $12 # Set Status register 
+[80000244] 375a0001  ori $26, $26, 1          ; 163: ori $k0 0x1 # Interrupts enabled 
+[80000248] 409a6000  mtc0 $26, $12            ; 164: mtc0 $k0 $12 
+[8000024c] 42000018  eret                     ; 167: eret 
