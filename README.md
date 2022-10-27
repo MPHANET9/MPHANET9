@@ -1,0 +1,4 @@
+- 👋 Hi, I’m @MPHANET9
+- 👀 I’m interested in learning how to code in both High Level and Secondary level
+- 🌱 I’m currently learning Bsc Information System
+- 📫 How to reach me mphanet9@gmail.com
