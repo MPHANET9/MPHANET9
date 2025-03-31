@@ -1,4 +1,4 @@
 - 👋 Hi, I’m @MPHANET9
-- 👀 I’m interested in learning how to code in both High Level and Secondary level
-- 🌱 I’m currently learning Bsc Information System
+- 👀 I’m interested in seamlessly utilizing technology to optimize business efficiency, in an analytical or operational perspective of corporates
+- 🌱 I’m a Bsc Information System Specialist
 - 📫 How to reach me mphanet9@gmail.com
