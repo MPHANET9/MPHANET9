@@ -1,4 +1,4 @@
 - 👋 Hi, I’m @MPHANET9
-- 👀 I’m interested in seamlessly utilizing technology to optimize business efficiency, in an analytical or operational perspective of corporates
-- 🌱 I’m a Bsc Information System Specialist
+- 👀 I’m interested in seamlessly utilizing technology to optimize business efficiency, in an analytical or operational perspective for corporates
+- 🌱 I’m a Bsc Information System Specialist, Aspiring Data, Business and System Analyst
 - 📫 How to reach me mphanet9@gmail.com
